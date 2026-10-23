@@ -34,6 +34,10 @@ public class Kruskal {
         });
 
         for (Edge edge : edges) {
+            if (dsu.components() == 1) {
+                break;
+            }
+
             result.edgeScans++;
 
             if (dsu.find(edge.from) != dsu.find(edge.to)) {
