@@ -1,17 +1,25 @@
 package com.daa;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import com.daa.algorithms.DSU;
+import com.daa.graph.Graph;
+import com.daa.graph.GraphReader;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        Graph graph = GraphReader.read("data/connected.txt");
+
+        System.out.println("Vertices: " + graph.size());
+        System.out.println("Edges: " + graph.edgeCount());
+
+        DSU dsu = new DSU(5);
+
+        dsu.union(0, 1);
+        dsu.union(1, 2);
+
+        System.out.println("Components: " + dsu.components());
+        System.out.println("Same group: "
+                + (dsu.find(0) == dsu.find(2)));
+        System.out.println("DSU operations: " + dsu.getDsuOps());
     }
 }
