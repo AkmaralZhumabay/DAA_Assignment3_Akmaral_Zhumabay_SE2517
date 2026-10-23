@@ -1,25 +1,41 @@
 package com.daa;
 
-import com.daa.algorithms.DSU;
+import com.daa.algorithms.Kruskal;
+import com.daa.algorithms.Prim;
 import com.daa.graph.Graph;
 import com.daa.graph.GraphReader;
 
 public class Main {
+
     public static void main(String[] args) throws Exception {
 
-        Graph graph = GraphReader.read("data/connected.txt");
+        Graph graph = GraphReader.read("data/disconnected.txt");
 
-        System.out.println("Vertices: " + graph.size());
-        System.out.println("Edges: " + graph.edgeCount());
+        Kruskal.Result kruskal = Kruskal.run(graph);
+        Prim.Result prim = Prim.run(graph);
 
-        DSU dsu = new DSU(5);
+        System.out.println(" Minimum Spanning Tree ");
 
-        dsu.union(0, 1);
-        dsu.union(1, 2);
+        System.out.println("Kruskal weight: "
+                + kruskal.totalWeight);
 
-        System.out.println("Components: " + dsu.components());
-        System.out.println("Same group: "
-                + (dsu.find(0) == dsu.find(2)));
-        System.out.println("DSU operations: " + dsu.getDsuOps());
+        System.out.println("Prim weight: "
+                + prim.totalWeight);
+
+        System.out.println("Kruskal edges: "
+                + kruskal.edgeCount);
+
+        System.out.println("Prim edges: "
+                + prim.edgeCount);
+
+        System.out.println("Components: "
+                + kruskal.components);
+
+        if (kruskal.totalWeight != prim.totalWeight) {
+            throw new IllegalStateException(
+                    "MST weights do not match!");
+        }
+
+        System.out.println("MST verification passed!");
     }
 }
